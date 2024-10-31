@@ -1,0 +1,88 @@
+# Understanding ESP-SimHub Configuration
+
+import { Callout } from 'nextra/components'
+import BoardLink, { BoardType } from "../../components/BoardLink";
+
+## Overview
+
+The `src/main.cpp` file is the heart of your ESP-SimHub project. This file determines what features your device will support and how it will interact with SimHub. Think of it as your device's blueprint.
+
+<Callout type="info">
+Unlike Arduino-based SimHub devices that use a point-and-click configurator, ESP-SimHub requires direct code modification. This gives you a lot of flexibility but requires basic coding knowledge.
+</Callout>
+
+## Configuration Process
+
+### 1. Planning Your Device
+
+Before modifying any code:
+- Decide what features you need (buttons, encoders, displays, LEDs, etc.)
+- Select your ESP board if you haven't already.
+    - ESP8266 are more affordable but have less memory and pins. They're good for driving WS2812B LEDs and driving MAX7219 LED matrices.
+    - ESP32 have more memory and pins. They're good for driving larger displays, matrices, and combinations of features into a single device.
+- Map out your pin connections. This is specific to your ESP board. Get the pinout from the manufacturer.
+- Consider power requirements
+- Plan your connectivity needs
+
+### 2. Understanding the Code Structure
+
+The `main.cpp` file is organized into several key sections:
+
+1. **Feature Definitions**: At the top, features are enabled/disabled using `#define` statements
+2. **Pin Assignments**: Where you define which GPIO pins connect to your hardware
+3. **Setup Configuration**: Initial device configuration in the `setup()` function
+4. **Main Loop**: Handles ongoing device operations in the `loop()` function
+
+### 3. Making Changes
+
+To modify your device's configuration:
+
+1. Open `src/main.cpp` in your IDE
+2. Enable/disable features using `#define` statements. Start with a single feature enabled and continue to add features incrementally after testing each one.
+3. Configure pins according to your wiring
+4. Add any custom logic you need
+5. Build and upload to test changes using Platformio
+
+### 4. Testing Your Configuration
+
+After making changes:
+1. Compile the code to check for errors
+2. Upload to your device
+3. Test each feature in SimHub
+4. Monitor serial output for debugging if needed
+
+## Best Practices
+
+- **Test Incrementally**: Add and test one feature at a time
+- **Power Management**: Be mindful of power requirements when enabling features
+- **Pin Compatibility**: Double-check pin assignments for your specific board, some boards expose pins that may crash your device if used.
+
+<Callout type="info">
+Remember: The configuration process is iterative. Start simple, test thoroughly, and add complexity gradually.
+</Callout>
+
+## Common Pitfalls
+
+- **Memory Limitations**: Enabling too many features can exceed device memory
+- **Pin Conflicts**: Assigning multiple features to the same pin
+- **Power Issues**: Insufficient power for LED strips or multiple devices
+- **WiFi Stability**: Poor connection can affect device performance
+- **Crashes look like bad pairing with SimHub**: The firmware executes most code when connected or connecting to SimHub. Crashes look like bad pairing with SimHub. Try disabling feature by feature to find the culprit.
+
+## Getting Help
+
+If you run into issues:
+1. Join the community discussions [Discord](https://discord.gg/CfvJySWTcE)
+2. Review or post a [GitHub Issue](https://github.com/eCrowneEng/ESP-SimHub/issues)
+3. Ask ChatGPT or Claude
+
+<Callout type="warning">
+Remember to provide your configuration details when seeking help. This helps others understand your setup and provide better assistance.
+</Callout>
+
+## Next Steps
+
+- Browse our [Example Projects](/projects) for inspiration
+- Learn about [Hardware Compatibility](/hardware/esp32)
+- Understand [Power Requirements](/hardware/power-considerations)
+

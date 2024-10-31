@@ -1,0 +1,206 @@
+# Configuration Examples
+
+import { Callout } from 'nextra/components'
+import BoardLink, { BoardType } from "../../components/BoardLink";
+
+This guide provides practical examples of how to configure common features in your ESP-SimHub device.
+
+<Callout type="info">
+All examples assume you're editing the `src/main.cpp` file in your project.
+</Callout>
+
+## WS2812B LED Configuration
+
+There are two methods to control WS2812B LEDs in ESP-SimHub. Each has its advantages:
+
+### Method 1: NeoPixelBus Library (Recommended)
+
+This method uses the NeoPixelBus library, which provides better performance and more reliable timing, especially on ESP8266 devices.
+
+1. Enable the feature:
+```cpp
+#define INCLUDE_RGB_LEDS_NEOPIXELBUS
+```
+
+2. Configure your LED strip in `src/NeoPixelBusLEDs.h`:
+```cpp
+// Define number of LEDs
+#define NUM_LEDS 16
+
+// Define the data pin (this example uses GPIO2)
+#define DATA_PIN 2
+
+// uncomment the driving method you want to use, for example, 
+//  for ESP8266 use NeoEsp8266Uart1Ws2812xMethod (GPIO2 only)
+#define method NeoEsp8266Uart1Ws2812xMethod
+// or for ESP32 use NeoEsp32Rmt0Ws2812xMethod (supports most pins)
+#define method NeoEsp32Rmt0Ws2812xMethod
+// READ MORE in `src/NeoPixelBusLEDs.h`
+
+```
+
+<Callout type="warning">
+For ESP8266, certain pins work better than others. GPIO2 is recommended for best performance.
+</Callout>
+
+### Method 2: FastLED Compatible
+
+This method uses a FastLED-compatible implementation, but only supports BitBang method, which is slower and may cause reliability issues on the device.
+
+1. Enable the feature:
+```cpp
+#define INCLUDE_WS2812B
+```
+
+2. Configure in `src/main.cpp`:
+```cpp
+#define NUM_LEDS 16
+#define LED_PIN 2
+```
+
+<Callout type="warning">
+**Method Selection Guidelines**
+- We recommend using NeoPixelBus with any driving method other than BitBang. Each method has limitations on the pins that can be used.
+- Use only BitBang method if you have no other choice.
+</Callout>
+
+### Pin Selection
+
+#### For ESP8266
+- **NeoPixelBus**: Use GPIO2 (D4) for best results
+
+#### For ESP32
+- Any workable pin under GPIO32
+- Avoid pins used for flash memory IF EXPOSED.
+- Recommended pins: 2, 4, 12-19, 21-23, 25-27
+
+### Power Considerations
+
+<Callout type="warning">
+Regardless of the method chosen:
+- Each WS2812B LED can draw up to 60mA at full white with all software limitations removed.
+- In practice, We've seen them around 30-40mA under normal operation.
+- Calculate total power requirements: `NUM_LEDS * 60mA`
+- Add a capacitor (100-1000µF) across power lines to prevent brown-outs if possible.
+</Callout>
+
+## Common Issues with button matrix
+
+ **LED strip is slow**: Use NeoPixelBus with a non bitbang method. If this is already the case, then tame your animations. Check FPS in Arduino connection tab in SimHub.
+- **Flickering or not working**: Make sure you're powering your leds from the correct external power source.
+- **Incorrect layout**: Configure layout in SimHub > Arduino > LED Strip.
+- **Not sending data**: Some WS2812B LEDs require 5v signal, which the ESPs cannot provide. You'll need a level shifter or try shorter wires.
+- **Frame drops / flashes during normal usage**: If you're using BitBang method, you're running out of CPU time to handle other ESP tasks. If using an ESP32, try an ESP8266 instead or NeoPixelBus with non bitbang method.
+
+
+## WS2812B Matrix
+
+For a matrix display (like a 8x8 grid):
+
+```cpp
+#define INCLUDE_WS2812B_MATRIX
+
+// ...further down
+
+#define WS2812B_MATRIX_ENABLED 1
+
+// which pin to use for the data input
+#define WS2812B_MATRIX_DATAPIN 10
+
+// does your hardware use a serpentine layout?
+#define WS2812B_MATRIX_SERPENTINELAYOUT 0
+
+// if so, which direction?
+#define WS2812B_MATRIX_SERPENTINELAYOUTREVERSE 0
+
+```
+
+## Common Issues with button matrix
+
+- **Matrix is slow**: We need to port NEOPIXELBUS to support this feature, as currently only BitBang is supported.
+- **Flickering or not working**: Make sure you're powering your matrix from the correct external power source.
+- **Layout is flipped**: Configure rotation in SimHub.
+- **Not sending data**: Some WS2812B LEDs require 5v signal, which the ESPs cannot provide. You'll need a level shifter or try shorter wires.
+- **Frame drops / flashes during normal usage**: If you're using BitBang method, you're running out of CPU time to handle other ESP tasks. Try an ESP8266 or wait for NeoPixelBus to support this feature.
+
+## Buttons
+
+For simple button inputs. These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
+<Callout type="warning">
+These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
+</Callout>
+
+```cpp
+#define INCLUDE_BUTTONS
+
+// ...further down
+
+// how many buttons are you using?, max 12
+#define ENABLED_BUTTONS_COUNT 1 
+#ifdef  INCLUDE_BUTTONS
+
+// which pin to use for the button
+#define BUTTON_PIN_1 3
+// how is the button wired?, 0 = pin connects to GND, 1 = VCC connects to pin
+#define BUTTON_WIRINGMODE_1 0
+// what logic should be used?: 0 = normal, 1 = reversed
+#define BUTTON_LOGICMODE_1 0
+
+// ... more buttons
+
+```
+
+## Common Issues with button matrix
+
+- **Button not working**: Make sure your wiring and pin configuration is correct.
+- **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.
+
+
+## Button Matrix
+
+For a more efficient way to handle many buttons with fewer pins:
+
+<Callout type="warning">
+These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
+</Callout>
+
+```cpp
+#define INCLUDE_BUTTON_MATRIX
+#define ENABLED_BUTTONMATRIX 1
+
+// how many columns?, minimum 2, maximum 8
+#define BMATRIX_COLS 3
+// how many rows?, minimum 2, maximum 8
+#define BMATRIX_ROWS 3
+
+// Pins to use for each column, -1 is not used
+#define BMATRIX_COL1 17 
+#define BMATRIX_COL2 10
+#define BMATRIX_COL3 4
+#define BMATRIX_COL4 -1
+#define BMATRIX_COL5 -1
+#define BMATRIX_COL6 -1
+#define BMATRIX_COL7 -1
+#define BMATRIX_COL8 -1
+
+// Pins to use for each row, -1 is not used
+#define BMATRIX_ROW1 27
+#define BMATRIX_ROW2 23
+#define BMATRIX_ROW3 20
+#define BMATRIX_ROW4 -1
+#define BMATRIX_ROW5 -1
+#define BMATRIX_ROW6 -1
+#define BMATRIX_ROW7 -1
+#define BMATRIX_ROW8 -1
+
+```
+
+<Callout type="info">
+A button matrix allows you to use fewer pins for more buttons. For example, a 4x4 matrix supports 16 buttons using only 8 pins.
+</Callout>
+
+## Common Issues with button matrix
+
+- **Button not working**: Make sure your wiring and pin configuration is correct.
+- **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.
+
