@@ -6,14 +6,14 @@ export default {
   chat: {
     link: 'https://discord.gg/CfvJySWTcE',
   },
-  docsRepositoryBase: 'https://github.com/eCrowneEng/docs/tree/main/',
+  docsRepositoryBase: 'https://github.com/eCrowneEng/docs/tree/main',
 
   footer: {
     text: 'eCrowne Docs © 2024'
   },
   useNextSeoProps() {
     return {
-      titleTemplate: '%s – eCrowne Docs'
+      titleTemplate: '%s – eCrowne Docs',
     }
   }
 }
