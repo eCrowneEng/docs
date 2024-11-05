@@ -1,17 +1,20 @@
-# Configuration Examples
-
 import { Callout } from 'nextra/components'
-import BoardLink, { BoardType } from "../../components/BoardLink";
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+# Configuration Examples
 
 This guide provides practical examples of how to configure common features in your ESP-SimHub device.
 
 <Callout type="info">
-All examples assume you're editing the `src/main.cpp` file in your project.
+All examples assume you're editing the [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) file in your project unless otherwise specified.
 </Callout>
 
 ## WS2812B LED Configuration
+<Callout type="warning">
+ESP devices use 3.3v logic levels and WS2812B LEDs use 5v logic levels. This is known to be problematic in many cases, but works reliably in others. When in doubt, use a level shifter.
+</Callout>
 
-There are two methods to control WS2812B LEDs in ESP-SimHub. Each has its advantages:
+There are two methods to control <AffiliateLink type={ProductType.NeoPixel}>WS2812B/NeoPixel LEDs</AffiliateLink> in ESP-SimHub. Each has its advantages:
 
 ### Method 1: NeoPixelBus Library (Recommended)
 
@@ -22,7 +25,7 @@ This method uses the NeoPixelBus library, which provides better performance and 
 #define INCLUDE_RGB_LEDS_NEOPIXELBUS
 ```
 
-2. Configure your LED strip in `src/NeoPixelBusLEDs.h`:
+2. Configure your LED strip in [src/NeoPixelBusLEDs.h](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/NeoPixelBusLEDs.h):
 ```cpp
 // Define number of LEDs
 #define NUM_LEDS 16
@@ -52,7 +55,7 @@ This method uses a FastLED-compatible implementation, but only supports BitBang 
 #define INCLUDE_WS2812B
 ```
 
-2. Configure in `src/main.cpp`:
+2. Configure in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
 ```cpp
 #define NUM_LEDS 16
 #define LED_PIN 2
@@ -84,9 +87,9 @@ Regardless of the method chosen:
 - Add a capacitor (100-1000µF) across power lines to prevent brown-outs if possible.
 </Callout>
 
-## Common Issues with button matrix
+## Common Issues with WS2812B LEDs
 
- **LED strip is slow**: Use NeoPixelBus with a non bitbang method. If this is already the case, then tame your animations. Check FPS in Arduino connection tab in SimHub.
+- **LED strip is slow**: Use NeoPixelBus with a non bitbang method. If this is already the case, then tame your animations or reduce the number of features in the device. Check FPS in Arduino connection tab in SimHub.
 - **Flickering or not working**: Make sure you're powering your leds from the correct external power source.
 - **Incorrect layout**: Configure layout in SimHub > Arduino > LED Strip.
 - **Not sending data**: Some WS2812B LEDs require 5v signal, which the ESPs cannot provide. You'll need a level shifter or try shorter wires.
@@ -115,7 +118,7 @@ For a matrix display (like a 8x8 grid):
 
 ```
 
-## Common Issues with button matrix
+## Common Issues with WS2812B matrix
 
 - **Matrix is slow**: We need to port NEOPIXELBUS to support this feature, as currently only BitBang is supported.
 - **Flickering or not working**: Make sure you're powering your matrix from the correct external power source.
@@ -123,7 +126,7 @@ For a matrix display (like a 8x8 grid):
 - **Not sending data**: Some WS2812B LEDs require 5v signal, which the ESPs cannot provide. You'll need a level shifter or try shorter wires.
 - **Frame drops / flashes during normal usage**: If you're using BitBang method, you're running out of CPU time to handle other ESP tasks. Try an ESP8266 or wait for NeoPixelBus to support this feature.
 
-## Buttons
+## Buttons Through SimHub / NO GAMEPAD SUPPORT
 
 For simple button inputs. These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
 <Callout type="warning">
@@ -150,13 +153,13 @@ These buttons are handled through SimHub and not as a gamepad/controller. So the
 
 ```
 
-## Common Issues with button matrix
+## Common Issues with buttons
 
 - **Button not working**: Make sure your wiring and pin configuration is correct.
 - **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.
 
 
-## Button Matrix
+## Button Matrix / NO GAMEPAD SUPPORT
 
 For a more efficient way to handle many buttons with fewer pins:
 
@@ -201,6 +204,6 @@ A button matrix allows you to use fewer pins for more buttons. For example, a 4x
 
 ## Common Issues with button matrix
 
-- **Button not working**: Make sure your wiring and pin configuration is correct.
+- **Button not working**: Make sure your wiring and pin configuration is correct. To test, try connecting a row to a column using a wire. If it works on it's own, check wiring, if not, check configuration.
 - **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.
 

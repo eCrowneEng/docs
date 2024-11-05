@@ -1,0 +1,127 @@
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+import YouTube from "../../components/Youtube";
+
+# Board Configuration
+
+Configure your board settings in the [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini) file based on your ESP board type.
+
+## ESP8266 Configuration
+
+If you're using an <AffiliateLink type={ProductType.ESP8266} /> board, uncomment the ESP8266 environment in your [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini):
+
+```ini
+[common]
+lib_deps =
+	... lots of libraries here
+
+
+#############################################
+#  ESP8266
+#
+#  Comment out this whole block below if 
+#   you're not compiling for this platform
+#
+#############################################
+[env:esp8266]
+{The code here MUST NOT be prefaced with ;}
+
+#############################################
+# ESP32
+#
+#  Comment out this whole block below if 
+#   you're not compiling for this platform
+#
+#############################################
+;[env:esp32]
+{The code here MUST be prefaced with ;}
+
+```
+
+Common ESP8266 configuration:
+```ini
+[env:esp8266]
+platform = espressif8266
+board = nodemcuv2     ; See supported boards below; ex: d1_mini
+framework = arduino
+monitor_speed = 19200 # set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+```
+
+Find your board type in the [PlatformIO ESP8266 Boards Database](https://docs.platformio.org/en/latest/boards/index.html#espressif-8266).
+
+<Callout type="info" emoji="ℹ️">
+If you can't find your specific board in the PlatformIO Boards Database, pick a similar board with the same microcontroller (e.g., ESP32 or ESP8266). Most of the time, the differences are minimal and can be adjusted in the configuration.
+</Callout>
+
+## ESP32 Configuration
+
+For <AffiliateLink type={ProductType.ESP32} /> boards, uncomment the ESP32 environment:
+
+```ini
+[common]
+lib_deps =
+	... lots of libraries here
+
+
+#############################################
+#  ESP8266
+#
+#  Comment out this whole block below if 
+#   you're not compiling for this platform
+#
+#############################################
+;[env:esp8266]
+{The code here MUST be prefaced with ;}
+
+#############################################
+# ESP32
+#
+#  Comment out this whole block below if 
+#   you're not compiling for this platform
+#
+#############################################
+[env:esp32]
+{The code here MUST NOT be prefaced with ;}
+
+```
+
+Common ESP32 configuration:
+
+```ini
+[env:esp32dev]
+platform = espressif32
+board = esp32dev      ; See supported boards below, ex: wemos_d1_mini32, esp32doit-devkit-v1, seeed_xiao_esp32c3
+framework = arduino
+monitor_speed = 19200 # set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+```
+
+Find your board type in the [PlatformIO ESP32 Boards Database](https://docs.platformio.org/en/latest/boards/index.html#espressif-32).
+
+<Callout type="info" emoji="ℹ️">
+If you can't find your specific board in the PlatformIO Boards Database, pick a similar board with the same microcontroller (e.g., ESP32 or ESP8266). Most of the time, the differences are minimal and can be adjusted in the configuration.
+</Callout>
+
+## COM Port Configuration
+
+<Callout type="info" emoji="ℹ️">
+Most of the time, PlatformIO will automatically detect your board's COM port. Manual configuration is only needed if you experience connection issues or if you have multiple boards actively connected (not recommended, as you may upload firmware to a device other than the target).
+</Callout>
+
+If you need to manually specify the COM port, add this to your board's environment:
+
+```ini
+[env:esp32 or esp8266]
+... other configs here
+upload_port = COM4
+
+```
+
+To find your board's COM port:
+1. Open Device Manager in Windows
+2. Look under "Ports (COM & LPT)"
+3. Connect your board and note which new COM port appears 
+
+## Additional Resources
+
+Outdated video but still relevant for platformio.ini setup:
+<YouTube id="FdyeeDOmwws" />

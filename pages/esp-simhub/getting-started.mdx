@@ -1,10 +1,11 @@
 import YouTube from "../../components/Youtube";
 import { Callout } from 'nextra/components'
-import BoardLink, { BoardType } from "../../components/BoardLink";
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+import Image from 'next/image'
 
 # Getting Started with eCrowne ESP-SimHub Firmware
 
-Welcome to the eCrowne ESP-SimHub firmware! This guide will help you set up your development environment and get started with creating custom sim racing hardware using <BoardLink type={BoardType.ESP8266} /> and <BoardLink type={BoardType.ESP32} /> microcontrollers.
+Welcome to the eCrowne ESP-SimHub firmware! This guide will help you set up your development environment and get started with creating custom sim racing hardware using <AffiliateLink type={ProductType.ESP8266} /> and <AffiliateLink type={ProductType.ESP32} /> microcontrollers.
 
 <Callout type="warning" emoji="⚠️">
 This firmware is not supported by SimHub. It's a custom firmware for ESP devices written by eCrowne.
@@ -13,7 +14,7 @@ This firmware is not supported by SimHub. It's a custom firmware for ESP devices
 ## Forewarning
 
 <Callout type="warning" emoji="⚠️">
-If you don't have time to code, and maybe debug a thing or two this firmware is not for you. Get an <BoardLink type={BoardType.Arduino} /> and use the point and click configurator from SimHub.
+If you don't have time to code, and maybe debug a thing or two this firmware is not for you. Get an <AffiliateLink type={ProductType.Arduino} /> and use the point and click configurator from SimHub.
 </Callout>
 
 <Callout type="warning" emoji="⚠️">
@@ -25,24 +26,21 @@ This firmware is still under development and not all features are fully implemen
 Before you begin, ensure you have the following:
 
 <Callout type="warning" emoji="⚠️">
-This firmware doesn't support built-in point and click configurator from SimHub. You need to manually configure src/main.cpp file with code.
+This firmware doesn't support built-in point and click configurator from SimHub. You need to manually configure [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) file with code.
 </Callout>
 
 - **Some electronics knowledge**: Generic "how do I connect an encoder?" questions are a search on the internet away, but not here.
 - **Coding Experience**: Basic understanding of Arduino or C/C++ programming is recommended.
 - **Development Environment**: 
-  - [Visual Studio Code](https://code.visualstudio.com/) or a compatible IDE.
-  - [PlatformIO](https://platformio.org/) extension for VSCode.
-  - [Detailed instructions](https://docs.google.com/document/d/e/2PACX-1vS-x1qmuTNjaSI9U8lEJeWsmDuZjVs9aJ4cIcMp2I56GylIOKC8hjxeUtdAKORj8nT1Fi5TpgLljDKL/pub)
+  - [Visual Studio Code](https://code.visualstudio.com/) and [PlatformIO extension](https://platformio.org/install/ide?install=vscode)
 - **GIT Binaries**: [Git](https://git-scm.com/downloads/win) for installing dependencies and contributing to the project.
-- **Hardware**: ESP8266 or ESP32 development board, USB cable for programming.
+- **Hardware**: <AffiliateLink type={ProductType.ESP8266} /> or <AffiliateLink type={ProductType.ESP32} /> development board, USB cable for programming.
 
 ## Installation Steps
 
 1. **Set Up Your IDE**:
-   - [Detailed instructions](https://docs.google.com/document/d/e/2PACX-1vS-x1qmuTNjaSI9U8lEJeWsmDuZjVs9aJ4cIcMp2I56GylIOKC8hjxeUtdAKORj8nT1Fi5TpgLljDKL/pub)
-   - Install Visual Studio Code.
-   - Add the PlatformIO extension from the VSCode marketplace.
+   - [Install Visual Studio Code and the PlatformIO extension from the VSCode marketplace.](https://platformio.org/install/ide?install=vscode)
+   - [More setup guidance](https://docs.google.com/document/d/e/2PACX-1vS-x1qmuTNjaSI9U8lEJeWsmDuZjVs9aJ4cIcMp2I56GylIOKC8hjxeUtdAKORj8nT1Fi5TpgLljDKL/pub)
 
 2. **Clone the Repository or download the zip file**:
    - [Download the latest release zip file](https://github.com/eCrowneEng/ESP-SimHub/releases)
@@ -64,14 +62,14 @@ OR
    - PlatformIO will automatically detect the project configuration.
 
 4. **Configure Your Board**:
-   - [Detailed instructions](https://docs.google.com/document/d/e/2PACX-1vS-x1qmuTNjaSI9U8lEJeWsmDuZjVs9aJ4cIcMp2I56GylIOKC8hjxeUtdAKORj8nT1Fi5TpgLljDKL/pub)
-   - Open the `platformio.ini` file and make sure the environment is set to your board (Platform ESP8266/ESP32 and specific board).
-   - Adjust any necessary settings, such as upload speed or port.
+   - See the [Board Configuration Guide](/esp-simhub/board-configuration) for detailed instructions on setting up your specific board.
 
+<a name="build-upload" />
 5. **Build and Upload the Firmware**:
+   <Image width={600} height={600} src="/platformio/platformio-ide-vscode-build-project.png" alt="PlatformIO Build and Upload" />
    - Connect your ESP device to your computer via USB.
    - Use PlatformIO to build and upload the firmware:
-     - Click on the PlatformIO icon in the sidebar.
+     - Find the bottom bar in VSCode.
      - Select "Build" to compile the code.
      - Select "Upload" to flash the firmware to your device.
 

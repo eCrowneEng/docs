@@ -1,11 +1,11 @@
 # Understanding ESP-SimHub Configuration
 
 import { Callout } from 'nextra/components'
-import BoardLink, { BoardType } from "../../components/BoardLink";
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
 
 ## Overview
 
-The `src/main.cpp` file is the heart of your ESP-SimHub project. This file determines what features your device will support and how it will interact with SimHub. Think of it as your device's blueprint.
+The [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) file is the heart of your ESP-SimHub project. This file determines what features your device will support and how it will interact with SimHub. Think of it as your device's blueprint.
 
 <Callout type="info">
 Unlike Arduino-based SimHub devices that use a point-and-click configurator, ESP-SimHub requires direct code modification. This gives you a lot of flexibility but requires basic coding knowledge.
@@ -18,15 +18,15 @@ Unlike Arduino-based SimHub devices that use a point-and-click configurator, ESP
 Before modifying any code:
 - Decide what features you need (buttons, encoders, displays, LEDs, etc.)
 - Select your ESP board if you haven't already.
-    - ESP8266 are more affordable but have less memory and pins. They're good for driving WS2812B LEDs and driving MAX7219 LED matrices.
-    - ESP32 have more memory and pins. They're good for driving larger displays, matrices, and combinations of features into a single device.
-- Map out your pin connections. This is specific to your ESP board. Get the pinout from the manufacturer.
+    - <AffiliateLink type={ProductType.ESP8266} /> are more affordable but have less memory and pins. They're good for driving <AffiliateLink type={ProductType.NeoPixel}>WS2812B/NeoPixel LEDs</AffiliateLink> or <AffiliateLink type={ProductType.MAX7219}>MAX7219 LED matrices</AffiliateLink>.
+    - <AffiliateLink type={ProductType.ESP32} /> have more memory and pins. They're good for driving larger displays, matrices, and combinations of features into a single device.
+- Map out your pin connections. This is specific to your ESP board. Get the pinout from the manufacturer or vendor.
 - Consider power requirements
 - Plan your connectivity needs
 
 ### 2. Understanding the Code Structure
 
-The `main.cpp` file is organized into several key sections:
+The [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) file is organized into several key sections:
 
 1. **Feature Definitions**: At the top, features are enabled/disabled using `#define` statements
 2. **Pin Assignments**: Where you define which GPIO pins connect to your hardware
@@ -37,19 +37,22 @@ The `main.cpp` file is organized into several key sections:
 
 To modify your device's configuration:
 
-1. Open `src/main.cpp` in your IDE
+1. Open [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) in your IDE
 2. Enable/disable features using `#define` statements. Start with a single feature enabled and continue to add features incrementally after testing each one.
 3. Configure pins according to your wiring
 4. Add any custom logic you need
-5. Build and upload to test changes using Platformio
+5. [Build and upload to test changes using Platformio](getting-started#build-upload)
 
 ### 4. Testing Your Configuration
 
 After making changes:
 1. Compile the code to check for errors
 2. Upload to your device
-3. Test each feature in SimHub
-4. Monitor serial output for debugging if needed
+3. Connect to SimHub. If no connection, try disabling features one by one until you find the culprit.
+4. Test each feature in SimHub. 
+    - If feature is known to work, and doesn't, report it. 
+    - If not, show interest in the [Discord](https://discord.gg/CfvJySWTcE) or [GitHub Issues](https://github.com/eCrowneEng/ESP-SimHub/issues).
+5. Monitor serial output for debugging if using WiFi only. 
 
 ## Best Practices
 
@@ -63,10 +66,10 @@ Remember: The configuration process is iterative. Start simple, test thoroughly,
 
 ## Common Pitfalls
 
-- **Memory Limitations**: Enabling too many features can exceed device memory
-- **Pin Conflicts**: Assigning multiple features to the same pin
-- **Power Issues**: Insufficient power for LED strips or multiple devices
-- **WiFi Stability**: Poor connection can affect device performance
+- **Memory Limitations**: Enabling too many features can exceed device memory and not compile.
+- **Pin Conflicts**: Assigning multiple features to the same pin will be problematic.
+- **Power Issues**: Insufficient power for LED strips or multiple devices may damage your device.
+- **WiFi Stability**: Poor connection can affect device performance.
 - **Crashes look like bad pairing with SimHub**: The firmware executes most code when connected or connecting to SimHub. Crashes look like bad pairing with SimHub. Try disabling feature by feature to find the culprit.
 
 ## Getting Help
@@ -82,7 +85,4 @@ Remember to provide your configuration details when seeking help. This helps oth
 
 ## Next Steps
 
-- Browse our [Example Projects](/projects) for inspiration
-- Learn about [Hardware Compatibility](/hardware/esp32)
-- Understand [Power Requirements](/hardware/power-considerations)
-
+- Browse configuration examples in [Configuration Examples](/esp-simhub/configuration-examples)

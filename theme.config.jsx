@@ -3,7 +3,7 @@ export default {
   project: {
     link: 'https://github.com/eCrowneEng/ESP-SimHub'
   },
-  docsRepositoryBase: 'https://github.com/eCrowneEng/ESP-SimHub',
+  docsRepositoryBase: 'https://github.com/eCrowneEng/docs',
   footer: {
     text: 'eCrowne Documentation © 2024'
   },
