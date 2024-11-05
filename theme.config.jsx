@@ -1,15 +1,19 @@
 export default {
-  logo: <span>eCrowne Documentation</span>,
+  logo: <span>eCrowne </span>,
   project: {
     link: 'https://github.com/eCrowneEng/ESP-SimHub'
   },
-  docsRepositoryBase: 'https://github.com/eCrowneEng/docs',
+  chat: {
+    link: 'https://discord.gg/CfvJySWTcE',
+  },
+  docsRepositoryBase: 'https://github.com/eCrowneEng/docs/tree/main/',
+
   footer: {
-    text: 'eCrowne Documentation © 2024'
+    text: 'eCrowne Docs © 2024'
   },
   useNextSeoProps() {
     return {
-      titleTemplate: '%s – eCrowne Documentation'
+      titleTemplate: '%s – eCrowne Docs'
     }
   }
 }
