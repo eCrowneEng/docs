@@ -1,0 +1,52 @@
+---
+title: Debugging ESP-SimHub Firmware Issues
+---
+
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+# Debugging ESP-SimHub Connection Issues
+
+This is the most common visible issue when using the firmware, and this is not useful for debugging.
+```
+Hello
+Hello (sending)
+Unrecognized
+Hello (waiting for arduino boot)
+```
+
+- Start with a wired connection, disable WiFi or any other method of communication.
+
+## Debugging Serial Connection Issues
+
+- Try to connect to the device with SimHub.
+  - If you can connect. Then there is something wrong with your wireless connection.
+  - If you cannot connect, then there is something wrong with the firmware or hardware.
+- Try disabling feature by feature and connecting to SimHub every time. When you can connect, then you know the last disabled feature is the one causing the issue.
+  - The issue can either be in the firmware configuration for that feature, or an issue with the feature hardware.
+- Reenable the feature and disconnect the feature hardware and connecting to SimHub.
+  - If you can connect, then there is an issue with the feature hardware.
+  - If you cannot connect, then there is an issue with the firmware configuration for that feature or the firmware itself.
+    - Be aware that features marked as "untested" may not work at all. Implementing and testing these features is a work in progress and will require your help to get working.
+    - report the issue to the [Discord](https://discord.gg/CfvJySWTcE) or [GitHub](https://github.com/eCrowneEng/ESP-SimHub/issues).
+
+
+## Debugging WiFi Connection Issues
+- Verify that your feature works over wired connection.
+- Verify that the computer with SimHub running is on the same network as the ESP device.
+- Verify that Perle trueport is configured in Simple Mode.
+- Verify that SimHub is scanning the port configured in Perle trueport.
+- Enable DEBUG_TCP_BRIDGE in the firmware [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/master/src/main.cpp) and recompile the firmware.
+```cpp
+#define DEBUG_TCP_BRIDGE true
+```
+- Verify that the device is connecting to the WiFi network correctly by reading the serial port output (wired). To do this, you need to configure Platformio to connect to the right port and use 115200 baud rate. (See [Board Configuration](/esp-simhub/board-configuration))
+- If your device is connected to the network (outputs IP address, etc), try to connect to it with SimHub.
+  - If you can connect, (output says "client connected") then you know SimHub is reaching your device
+  - If you cannot connect, then there is something wrong with the network.
+- If you can connect (output says "client connected") but the device resets, then there is something wrong with the firmware, report the issue to the [Discord](https://discord.gg/CfvJySWTcE) or [GitHub](https://github.com/eCrowneEng/ESP-SimHub/issues).
+- You can also try debugging the code yourself through WiFi, by using `Serial.println` statements in the code and reading them in the Serial Monitor (same as you would with any Arduino).
+
+<Callout type="info">
+Remember to check the [Configuration](/esp-simhub/configuration) page for proper setup before debugging connection issues.
+</Callout>

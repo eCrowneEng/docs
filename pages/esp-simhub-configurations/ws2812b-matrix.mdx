@@ -1,0 +1,38 @@
+---
+title: NeoPixel/WS2812B LED Matrix Configuration for ESP and SimHub
+---
+
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+## WS2812B Matrix
+
+For an <AffiliateLink type={ProductType.NeoMatrix}>RGB LED matrix display</AffiliateLink> (like a 8x8 grid):
+
+Enable and configure the feature in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+
+```cpp
+#define INCLUDE_WS2812B_MATRIX
+
+// ...further down
+
+#define WS2812B_MATRIX_ENABLED 1
+
+// which pin to use for the data input
+#define WS2812B_MATRIX_DATAPIN 10
+
+// does your hardware use a serpentine layout?
+#define WS2812B_MATRIX_SERPENTINELAYOUT 0
+
+// if so, which direction?
+#define WS2812B_MATRIX_SERPENTINELAYOUTREVERSE 0
+
+```
+
+## Common Issues with WS2812B matrix
+
+- **Matrix is slow**: We need to port NEOPIXELBUS to support this feature, as currently only BitBang is supported.
+- **Flickering or not working**: Make sure you're powering your matrix from the correct external power source.
+- **Layout is flipped**: Configure rotation in SimHub.
+- **Not sending data**: Some WS2812B LEDs require 5v signal, which the ESPs cannot provide. You'll need a level shifter or try shorter wires.
+- **Frame drops / flashes during normal usage**: If you're using BitBang method, you're running out of CPU time to handle other ESP tasks. Try an ESP8266 or wait for NeoPixelBus to support this feature.

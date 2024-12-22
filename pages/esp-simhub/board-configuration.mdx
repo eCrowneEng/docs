@@ -1,3 +1,7 @@
+---
+title: Board Configuration
+---
+
 import { Callout } from 'nextra/components'
 import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
 import YouTube from "../../components/Youtube";
@@ -8,7 +12,7 @@ Configure your board settings in the [platformio.ini](https://github.com/eCrowne
 
 ## ESP8266 Configuration
 
-If you're using an <AffiliateLink type={ProductType.ESP8266} /> board, uncomment the ESP8266 environment in your [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini):
+If you're using an <AffiliateLink type={ProductType.ESP8266} /> board, uncomment the ESP8266 environment in your [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini) (this is the default):
 
 ```ini
 [common]
@@ -44,7 +48,8 @@ Common ESP8266 configuration:
 platform = espressif8266
 board = nodemcuv2     ; See supported boards below; ex: d1_mini
 framework = arduino
-monitor_speed = 19200 # set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+# set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+monitor_speed = 19200 # 115200 if using wifi and want serial output
 ```
 
 Find your board type in the [PlatformIO ESP8266 Boards Database](https://docs.platformio.org/en/latest/boards/index.html#espressif-8266).
@@ -92,7 +97,8 @@ Common ESP32 configuration:
 platform = espressif32
 board = esp32dev      ; See supported boards below, ex: wemos_d1_mini32, esp32doit-devkit-v1, seeed_xiao_esp32c3
 framework = arduino
-monitor_speed = 19200 # set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+# set by simhub serial supporting code, if using wifi you can set this to 115200 and use it for debugging
+monitor_speed = 19200 # 115200 if using wifi and want serial output
 ```
 
 Find your board type in the [PlatformIO ESP32 Boards Database](https://docs.platformio.org/en/latest/boards/index.html#espressif-32).

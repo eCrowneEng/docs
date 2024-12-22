@@ -1,3 +1,7 @@
+---
+title: Understanding ESP-SimHub Configuration
+---
+
 # Understanding ESP-SimHub Configuration
 
 import { Callout } from 'nextra/components'
@@ -16,13 +20,12 @@ Unlike Arduino-based SimHub devices that use a point-and-click configurator, ESP
 ### 1. Planning Your Device
 
 Before modifying any code:
-- Decide what features you need (buttons, encoders, displays, LEDs, etc.)
-- Select your ESP board if you haven't already.
+- Decide what features you need (<AffiliateLink type={ProductType.Buttons}>buttons</AffiliateLink>, <AffiliateLink type={ProductType.Encoders}>encoders</AffiliateLink>, displays, LEDs, etc.)- Select your ESP board if you haven't already.
     - <AffiliateLink type={ProductType.ESP8266} /> are more affordable but have less memory and pins. They're good for driving <AffiliateLink type={ProductType.NeoPixel}>WS2812B/NeoPixel LEDs</AffiliateLink> or <AffiliateLink type={ProductType.MAX7219}>MAX7219 LED matrices</AffiliateLink>.
     - <AffiliateLink type={ProductType.ESP32} /> have more memory and pins. They're good for driving larger displays, matrices, and combinations of features into a single device.
 - Map out your pin connections. This is specific to your ESP board. Get the pinout from the manufacturer or vendor.
 - Consider power requirements
-- Plan your connectivity needs
+- Plan your connectivity needs (WiFi, Wired), Bluetooth SimHub is not supported.
 
 ### 2. Understanding the Code Structure
 
@@ -85,4 +88,4 @@ Remember to provide your configuration details when seeking help. This helps oth
 
 ## Next Steps
 
-- Browse configuration examples in [Configuration Examples](/esp-simhub/configuration-examples)
+- Browse configuration examples in [Configuration Examples](/esp-simhub-configurations/configuration-examples)

@@ -1,0 +1,60 @@
+---
+title: Button Matrix Configuration for ESP and SimHub
+---
+
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+## Button Matrix / NO GAMEPAD SUPPORT
+
+For a more efficient way to handle many <AffiliateLink type={ProductType.Buttons}>buttons</AffiliateLink> with fewer pins:
+
+<Callout type="warning">
+These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
+</Callout>
+
+Enable the feature in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+
+```cpp
+#define INCLUDE_BUTTON_MATRIX
+#define ENABLED_BUTTONMATRIX 1
+
+// how many columns?, minimum 2, maximum 8
+#define BMATRIX_COLS 3
+// how many rows?, minimum 2, maximum 8
+#define BMATRIX_ROWS 3
+
+// Pins to use for each column, -1 is not used
+#define BMATRIX_COL1 17 
+#define BMATRIX_COL2 10
+#define BMATRIX_COL3 4
+#define BMATRIX_COL4 -1
+#define BMATRIX_COL5 -1
+#define BMATRIX_COL6 -1
+#define BMATRIX_COL7 -1
+#define BMATRIX_COL8 -1
+
+// Pins to use for each row, -1 is not used
+#define BMATRIX_ROW1 27
+#define BMATRIX_ROW2 23
+#define BMATRIX_ROW3 20
+#define BMATRIX_ROW4 -1
+#define BMATRIX_ROW5 -1
+#define BMATRIX_ROW6 -1
+#define BMATRIX_ROW7 -1
+#define BMATRIX_ROW8 -1
+
+```
+
+<Callout type="info">
+A button matrix allows you to use fewer pins for more buttons. For example, a 4x4 matrix supports 16 buttons using only 8 pins.
+</Callout>
+
+## How to use button matrix
+
+How to use button matrix in SimHub can be found in the [Using SimHub Buttons Only](/simhub-support/using-simhub-buttons-only) documentation.
+
+## Common Issues with button matrix
+
+- **Button not working**: Make sure your wiring and pin configuration is correct. To test, try connecting a row to a column using a wire. If it works on it's own, check wiring, if not, check configuration.
+- **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.

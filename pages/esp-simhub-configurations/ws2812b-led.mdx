@@ -1,0 +1,84 @@
+---
+title: NeoPixel/WS2812B LED Configuration for ESP and SimHub
+---
+
+import { Callout } from 'nextra/components';
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+## WS2812B LED Configuration
+<Callout type="warning">
+ESP devices use 3.3v logic levels and WS2812B LEDs use 5v logic levels. This is known to be problematic in many cases, but works reliably in others. When in doubt, use a level shifter.
+</Callout>
+
+There are two libraries to control <AffiliateLink type={ProductType.NeoPixel}>WS2812B/NeoPixel LEDs</AffiliateLink> in ESP-SimHub. Each has its advantages:
+
+### Library 1: NeoPixelBus Library (Recommended)
+
+This method uses the NeoPixelBus library, which provides better performance and more reliable timing, especially on ESP8266 devices.
+
+1. Enable the feature in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+```cpp
+#define INCLUDE_RGB_LEDS_NEOPIXELBUS
+```
+
+2. Configure your LED strip in [src/NeoPixelBusLEDs.h](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/NeoPixelBusLEDs.h):
+```cpp
+// Define number of LEDs
+#define NUM_LEDS 16
+
+// Define the data pin (this example uses GPIO2)
+#define DATA_PIN 2
+
+// uncomment the driving method you want to use, for example, 
+//  for ESP8266 use NeoEsp8266Uart1Ws2812xMethod (GPIO2 only)
+#define method NeoEsp8266Uart1Ws2812xMethod
+// or for ESP32 use NeoEsp32Rmt0Ws2812xMethod (supports most pins)
+#define method NeoEsp32Rmt0Ws2812xMethod
+// READ MORE in `src/NeoPixelBusLEDs.h`
+
+```
+
+<Callout type="warning">
+For ESP8266, certain pins work better than others. GPIO2 is recommended for best performance.
+</Callout>
+
+### Library 2: FastLED (Not Recommended)
+
+This method uses a FastLED-compatible implementation, but only supports BitBang method, which is slower and may cause reliability issues on the device.
+
+1. Enable the feature in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+```cpp
+#define INCLUDE_WS2812B
+```
+
+2. Configure in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+```cpp
+#define NUM_LEDS 16
+#define LED_PIN 2
+```
+
+<Callout type="warning">
+**Method Selection Guidelines**
+- We recommend using NeoPixelBus with any driving method other than BitBang. Each method has limitations on the pins that can be used.
+- Use only BitBang method if you have no other choice.
+</Callout>
+
+### Pin Selection
+
+#### For ESP8266
+- **NeoPixelBus**: Use GPIO2 (D4) for best results
+
+#### For ESP32
+- Any workable pin under GPIO32
+- Avoid pins used for flash memory IF EXPOSED.
+- Recommended pins: 2, 4, 12-19, 21-23, 25-27
+
+### Power Considerations
+
+<Callout type="warning">
+Regardless of the method chosen:
+- Each WS2812B LED can draw up to 60mA at full white with all software limitations removed.
+- In practice, We've seen them around 30-40mA under normal operation.
+- Calculate total power requirements: `NUM_LEDS * 60mA`
+- (Optional but recommended)Add a capacitor (100-1000µF) across power lines to prevent drops in power if possible.
+</Callout>

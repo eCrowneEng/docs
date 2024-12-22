@@ -1,0 +1,57 @@
+---
+title: Using SimHub Buttons when no gamepad support is enabled
+---
+
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+import Image from "next/image";
+
+<Callout type="info">
+For more information on how to configure buttons in the firmware, see the [Buttons](/esp-simhub-configurations/buttons) or [Button Matrix](/esp-simhub-configurations/button-matrix) documentation.
+</Callout>
+
+## Using SimHub Buttons when no gamepad support is enabled
+
+When no gamepad support is enabled for your ESP firmware you can still use buttons to trigger certain actions through SimHub.
+
+- Control SimHub features, such as:
+    - Change dashboard layouts
+    - Increment/decrement values such as redline
+    - Control volume
+    - Change arduino screen layouts or brightness
+    - Switch LED layouts
+    - Increase/decrease motion/vibration gains
+- Emulate keyboard presses.
+
+## SimHub Button to control SimHub features
+- On the sidebar select "Controls and Events"
+- Select the "Controls" tab
+- Click the "New Mapping" button
+- On the new screen, click on the left column text field that says "Type to filter"
+- Press the button you want to use on your ESP SimHub device
+- A button should appear with a name similar to "AdditionalButtons_2_2"
+- On the right column (Target), select the SimHub feature you want to control
+- Click "Ok"
+
+<Image unoptimized src="/simhub/simhub-controls-configuration.gif" alt="SimHub Button to control SimHub feature" width={600} height={500} />
+
+## SimHub Button to emulate keyboard presses
+
+ESP-SimHub firmware devices can emulate keyboard presses through SimHub.
+
+- On the sidebar select "Controls and Events"
+- Select the "Keyboard Emulation" tab
+- Click "Add Mapping"
+- Under "Input", click "Click to Configure"
+- Press the button you want to use on your ESP SimHub device
+- A button should appear with a name similar to "AdditionalButtons_2_2"
+- On the right column either press the keys you want to send, or select the keys manually.
+
+<Image unoptimized src="/simhub/simhub-keyboard-emulation.gif" alt="SimHub button keyboard emulation" width={600} height={500} />
+
+## Configuring Buttons in the firmware
+
+See the following documentation to configure your firmware to use buttons:
+ - [Buttons](/esp-simhub-configurations/buttons) for more information on how to configure simple buttons 
+ - [Button Matrix](/esp-simhub-configurations/button-matrix) for a button matrix setup
+

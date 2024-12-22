@@ -1,3 +1,5 @@
+import { useConfig } from 'nextra-theme-docs'
+
 export default {
   logo: <span>eCrowne </span>,
   project: {
@@ -10,6 +12,15 @@ export default {
 
   footer: {
     text: 'eCrowne Docs © 2024'
+  },
+  head: () => {
+    const { frontMatter } = useConfig()
+ 
+    return (
+      <>
+        <title>{frontMatter.title} – eCrowne Docs</title>
+      </>
+    )
   },
   useNextSeoProps() {
     return {

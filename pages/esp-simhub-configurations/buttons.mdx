@@ -1,0 +1,47 @@
+---
+title: Buttons Configuration for ESP and SimHub
+---
+
+import { Callout } from 'nextra/components'
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+## Buttons Through SimHub / NO GAMEPAD SUPPORT
+
+For simple <AffiliateLink type={ProductType.Buttons}>button inputs</AffiliateLink>
+
+<Callout type="warning">
+These buttons are handled through SimHub and not as a gamepad/controller. So there are many limitations to what you can do with them.
+</Callout>
+
+Enable and configure the feature in [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp):
+
+```cpp
+#define INCLUDE_BUTTONS
+
+// ...further down
+
+// how many buttons are you using?, max 12
+#define ENABLED_BUTTONS_COUNT 1 
+#ifdef  INCLUDE_BUTTONS
+
+// which pin to use for the button
+#define BUTTON_PIN_1 3
+
+// how is the button wired?, 0 = pin connects to GND, 1 = VCC connects to pin
+#define BUTTON_WIRINGMODE_1 0
+
+// what logic should be used?: 0 = normal, 1 = reversed
+#define BUTTON_LOGICMODE_1 0
+
+// ... more buttons
+
+```
+
+## How to use buttons
+
+How to use buttons in SimHub can be found in the [Using SimHub Buttons Only](/simhub-support/using-simhub-buttons-only) documentation.
+
+## Common Issues with buttons
+
+- **Button not working**: Make sure your wiring and pin configuration is correct.
+- **Device disconnects whe using feature**: Make sure the pins you selected can be used as input or if using them causes resets/crashes.

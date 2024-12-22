@@ -1,0 +1,70 @@
+---
+title: Why PlatformIO and not Arduino IDE?
+---
+
+# Why PlatformIO and not Arduino IDE?
+
+import { Callout } from 'nextra/components'
+
+## Overview
+
+ESP-SimHub firmware was developed using PlatformIO and VS Code, moving away from Arduino IDE for several compelling reasons. While Arduino IDE is popular for small projects, PlatformIO offers a more robust development environment that's better suited for complex projects like ESP-SimHub.
+
+## Key Benefits
+
+### Professional Development Environment
+- Built on Visual Studio Code, providing:
+  - Superior code autocompletion
+  - Better dependency management
+    - The Arduino IDE requires either manual library downloads and installations OR inclusion of the library in the project folder. PlatformIO automatically manages all dependencies, ensuring consistent versions across all developers.
+  - Professional-grade development tools
+  - Integrated debugging capabilities
+  - Git integration
+
+## Understanding PlatformIO Project Structure
+
+PlatformIO uses a different folder structure than Arduino IDE. Here's what you need to know:
+
+### Key Files and Folders
+
+#### `platformio.ini`
+- The main project configuration file
+    - [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini)
+- Defines:
+  - Project libraries and versions
+  - Target platforms
+  - Board configurations
+  - Framework settings (Arduino)
+  - Serial port settings
+  - Upload configurations
+
+
+#### Project Folders
+- `lib/`: Project-specific libraries
+  - Contains ESP compatibility functions
+  - WiFi-related code
+- `src/`: Main source code
+  - [main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp): The primary firmware file (equivalent to Arduino's .ino file)
+  - Additional SimHub-generated files
+
+<Callout type="info">
+When using WiFi, set `monitor_speed = 115200` in platformio.ini for debugging purposes. The default 19200 is set by SimHub's serial supporting code.
+</Callout>
+
+## Important Considerations
+
+### 1. Stricter Compilation
+PlatformIO may be stricter about type conversions and other programming constructs compared to Arduino IDE. While this might require more attention to detail, it generally results in more robust code.
+
+### 2. Port Configuration
+You have two options for configuring the upload port:
+- Let PlatformIO auto-detect by removing the `upload_port` setting in [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini)
+- Explicitly specify it with `upload_port = COM4` (or your specific port) in [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini)
+
+<Callout type="warning">
+If you have multiple serial ports, it's recommended to explicitly specify the `upload_port` in [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini) to avoid upload issues.
+</Callout>
+
+## Getting Started
+
+If you're new to PlatformIO, follow our [Getting Started Guide](/esp-simhub/getting-started) for detailed setup instructions. While there might be a slight learning curve coming from Arduino IDE, the benefits of using PlatformIO make it worthwhile for ESP-SimHub development.

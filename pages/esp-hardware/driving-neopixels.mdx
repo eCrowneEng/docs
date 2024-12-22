@@ -1,0 +1,29 @@
+---
+title: Driving Neopixels with ESP Microcontrollers
+---
+
+import AffiliateLink, { ProductType } from "../../components/AffiliateLink";
+
+# Driving Neopixels with ESP Microcontrollers
+
+<AffiliateLink type={ProductType.NeoPixel}>Neopixels (WS2812B LEDs)</AffiliateLink> traditionally rely on "bit-banging" - manually toggling GPIO pins with precise microsecond-level timing. While this works on simpler microcontrollers, it's inefficient for ESP devices due to their complex architecture that can't be blocked by interrupts.
+
+If you rely on the traditional bit-banging method, you'll likely experience flickering and other artifacts (random color shifts, dead pixels, etc), and slow update speeds using the SimHub firmware.
+
+Instead, we recommend using specialized non-blocking hardware peripherals available in both ESP32 and ESP8266:
+- <AffiliateLink type={ProductType.ESP8266}>ESP8266</AffiliateLink> can use UART1 (GPIO2 [D4]) and still have the ability to use Serial (UART0) communication for other tasks. [More info](https://github.com/Makuna/NeoPixelBus/wiki/ESP8266-NeoMethods)
+- <AffiliateLink type={ProductType.ESP32}>ESP32</AffiliateLink> has multiple methods available, but the recommended method is RMT(0) which is available on most pins and ESP32 types. [More info](https://github.com/Makuna/NeoPixelBus/wiki/ESP32-NeoMethods)
+
+## Understanding the Protocol
+
+Neopixels use a timing-sensitive single-wire protocol. This means that longer strips will require more time to update and if using bit-banging, the device will be blocked from doing other tasks during the update. This becomes problematic either when using WiFi, running interrupts such as the ones required to read encoders, or any time you're using a real-time operating system such as any ESP32.
+
+## Recommendations
+
+- Use the specialized hardware peripherals available on ESP32 and ESP8266.
+- Use short wires between the microcontroller and the LED strip.
+- Consider using a step-up voltage converter (boost converter) to bring the signal voltage to 5v.
+- Don't update too frequently.
+- If you need high refresh rates, use a different type of LED strip, such as one with 2 wires for data (APA102 and SK6812 are common).
+- Consider an ESP8266 instead of an ESP32, as they don't have a real-time operating system and can block for longer periods of time.
+- If you need to use WiFi or Bluetooth, consider using a different type of LED strip, such as one with 2 wires for data (APA102 and SK6812 are common)..
