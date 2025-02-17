@@ -1,0 +1,51 @@
+---
+title: WiFi Configuration
+---
+
+# WiFi Configuration
+
+## Overview
+Connecting to your device to SimHub over WiFi is something that's only possible because ESP devices have built in WiFi.
+SimHub is fully ignorant of the WiFi connection, it only knows how to connect via a serial port.
+
+On the SimHub computer, we install software that fakes a serial port, and redirects all the data to an ip Address and port.
+The ESP device is connected to that ip address and port and knows how to decode the messages and respond to them. The software is only 
+responsible for sending and receiving data, it doesn't know anything about the SimHub protocol, or the ESP device.
+
+## Setup
+Download ESP-SimHub from the [releases page](https://github.com/eCrowneEng/ESP-SimHub/releases) and [set up platformio](/esp-simhub/getting-started)
+
+Edit [src/main.cpp](https://github.com/eCrowneEng/ESP-SimHub/blob/main/src/main.cpp) to configure the WiFi connection:
+
+Set the preprocessor directive called CONNECTION_TYPE to WIFI `#define CONNECTION_TYPE WIFI`. Set `DEBUG_BRIDGE` to true as well, and set monitor_speed = 115200 in [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini)
+
+Either:
+- Hardcode your WiFi Credentials in the src/main.cpp and enable `USE_HARDCODED_CREDENTIALS`. Use this if you want simpler setup, and won't upload the code anywhere.
+- Don't enable `USE_HARDCODED_CREDENTIALS`. This will use WiFiManager which creates a WiFi access point that you can connect to with your phone or computer. Then you can visit 192.168.4.1 and you'll enter your wifi credentials there.
+  - Warning: We have yet to build a mechanism to reset your saved credentials. Currently you have to [erase the flash memory](https://community.platformio.org/t/how-to-erase-flash/24465/5) through platformio to do so and upload your firmware again.
+
+Upload the firmware to your device.
+
+Open the serial monitor in PlatformIO.
+
+Connect to the WiFi network either through the hardcoded credentials or through the WiFiManager access point.
+
+Once your connected, write down the IP address of the device.
+
+## Serial port redirection
+- Download [Perle TruePort](https://www.perle.com/downloads/trueport.shtml). 
+- Install it. 
+- Configure a new COM port. 
+- Forward the data to the IP address of your ESP. 
+- [Check the manual on the section called "Configuring the COM Port Connection" > "Access Device Server Serial Port"](https://www.perle.com/downloads/drivers/trueport/windows/windows_ug.pdf) 
+- Follow the instructions to set it up in **LITE mode**. .. and that should be it.
+
+## Troubleshooting
+Before we get started, Did you remember to set TruePort in LITE mode?
+
+- First and foremost, keep the serial monitor open and check for any errors or reboots.
+- Revert enabling any features one by one to isolate the problem.
+- Check if your Perle TruePort is configured in **LITE mode**!!!!!!.
+- Check if your ESP is connected to the SAME network as SimHub.
+- Check if SimHub is scanning the port correctly.
+- Check if the IP address of the ESP is correct.

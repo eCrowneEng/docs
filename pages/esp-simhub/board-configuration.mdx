@@ -10,9 +10,22 @@ import YouTube from "../../components/Youtube";
 
 Configure your board settings in the [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini) file based on your ESP board type.
 
+There are multiple environments in the platformio.ini file, you'll need to configure the correct one, and switch to it in VSCode.
+
 ## ESP8266 Configuration
 
-If you're using an <AffiliateLink type={ProductType.ESP8266} /> board, uncomment the ESP8266 environment in your [platformio.ini](https://github.com/eCrowneEng/ESP-SimHub/blob/main/platformio.ini) (this is the default):
+If you're using an <AffiliateLink type={ProductType.ESP8266} /> board, go to VSCode status bar and switch to the ESP8266 environment.
+
+### Go to the status bar and tap the environment switcher
+<img src="/platformio/env-esp8266-1.png" alt="Go to the status bar and tap the environment switcher" />
+
+### Select the ESP8266 environment
+<img src="/platformio/env-esp8266-2.png" alt="Select the ESP8266 environment" />
+
+### The environment is now set to ESP8266
+<img src="/platformio/env-esp8266-3.png" alt="The environment is now set to ESP8266" />
+
+### Go to platformio.ini and find the ESP8266 environment
 
 ```ini
 [common]
@@ -23,26 +36,20 @@ lib_deps =
 #############################################
 #  ESP8266
 #
-#  Comment out this whole block below if 
-#   you're not compiling for this platform
-#
 #############################################
 [env:esp8266]
-{The code here MUST NOT be prefaced with ;}
+{This is the esp8266 environment}
 
 #############################################
 # ESP32
 #
-#  Comment out this whole block below if 
-#   you're not compiling for this platform
-#
 #############################################
 ;[env:esp32]
-{The code here MUST be prefaced with ;}
+{This is the esp32 environment, ignore this}
 
 ```
 
-Common ESP8266 configuration:
+### Configure your esp8266 environment with your board type:
 ```ini
 [env:esp8266]
 platform = espressif8266
@@ -60,7 +67,18 @@ If you can't find your specific board in the PlatformIO Boards Database, pick a 
 
 ## ESP32 Configuration
 
-For <AffiliateLink type={ProductType.ESP32} /> boards, uncomment the ESP32 environment:
+For <AffiliateLink type={ProductType.ESP32} /> boards, go to VSCode status bar and switch to the ESP32 environment.
+
+### Go to the status bar and tap the environment switcher
+<img src="/platformio/env-esp8266-1.png" alt="Go to the status bar and tap the environment switcher" />
+
+### Select the ESP32 environment
+<img src="/platformio/env-esp8266-2.png" alt="Select the ESP32 environment" />
+
+### The environment is now set to ESP32
+<img src="/platformio/env-esp32-3.png" alt="The environment is now set to ESP32" />
+
+### Go to platformio.ini and find the ESP32 environment
 
 ```ini
 [common]
@@ -71,26 +89,20 @@ lib_deps =
 #############################################
 #  ESP8266
 #
-#  Comment out this whole block below if 
-#   you're not compiling for this platform
-#
 #############################################
 ;[env:esp8266]
-{The code here MUST be prefaced with ;}
+{Ignore this one}
 
 #############################################
 # ESP32
 #
-#  Comment out this whole block below if 
-#   you're not compiling for this platform
-#
 #############################################
 [env:esp32]
-{The code here MUST NOT be prefaced with ;}
+{Configure this one}
 
 ```
 
-Common ESP32 configuration:
+### Configure your esp32 environment with your board type:
 
 ```ini
 [env:esp32dev]
