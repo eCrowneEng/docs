@@ -14,18 +14,23 @@ export enum ProductType {
     Default = "Default"
 }
 
+const AFFILIATE_TAG = "ecoreng06-20";
+
+const search = (query: string) =>
+    `https://www.amazon.com/s?k=${encodeURIComponent(query)}&tag=${AFFILIATE_TAG}`;
+
 export const Links: Record<ProductType, string> = {
-    [ProductType.ESP8266]: "https://amzn.to/4hnDVaq",
-    [ProductType.ESP32]: "https://amzn.to/3AgEodX",
-    [ProductType.Arduino]: "https://amzn.to/4e8i589",
-    [ProductType.NeoPixel]: "https://amzn.to/4foVTYu",
-    [ProductType.NeoMatrix]: "https://amzn.to/48HiZav",
-    [ProductType.MAX7219]: "https://amzn.to/3ArBX8t",
-    [ProductType.I2CLCD]: "https://amzn.to/48IqmyG",
-    [ProductType.I2CLCD20X4]: "https://amzn.to/3NXJOh6",
-    [ProductType.Buttons]: "https://amzn.to/4epK4jZ",
-    [ProductType.Encoders]: "https://amzn.to/4fCVu4M",
-    [ProductType.Default]: "https://amzn.to/3AgEodX"
+    [ProductType.ESP8266]: search("esp8266"),
+    [ProductType.ESP32]: search("esp32"),
+    [ProductType.Arduino]: search("arduino"),
+    [ProductType.NeoPixel]: search("ws2812b led"),
+    [ProductType.NeoMatrix]: search("neopixel 8x8"),
+    [ProductType.MAX7219]: search("max7219 led matrix"),
+    [ProductType.I2CLCD]: search("i2c lcd 16x2"),
+    [ProductType.I2CLCD20X4]: search("i2c lcd 20x4"),
+    [ProductType.Buttons]: search("push button 12mm 16mm"),
+    [ProductType.Encoders]: search("encoder arduino"),
+    [ProductType.Default]: search("esp32")
 }
 
 export default function BoardLink({ type, title, children }: { type: ProductType, title?: string, children?: React.ReactNode }) {
